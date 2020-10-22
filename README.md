@@ -11,6 +11,13 @@ the build process is fully self contained, adding the Make command
 ```bash
 make cadabra_translator
 ```
+
+To finalise the install, navigate to `build/client_server/jupyter/swig` and execute
+```
+pip install .
+```
+to copy the binaries and python scripts into the relevant module path.
+
 ### Kernel
 The kernel can be installed with
 ```bash
