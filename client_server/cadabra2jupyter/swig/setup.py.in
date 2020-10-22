@@ -1,0 +1,29 @@
+import setuptools.command.install
+import shutil
+from distutils.sysconfig import get_python_lib
+
+from setuptools import find_packages, setup
+
+
+class CompiledLibInstall(setuptools.command.install.install):
+    """ specialized installation class """
+
+    def run(self):
+        """ called by setup """
+        # Get filenames from CMake variable
+        filenames = '${PYTHON_INSTALL_FILES}'.split(';')
+
+        # Directory to install to
+        install_dir = get_python_lib()
+
+        # Install files
+        [shutil.copy(filename, install_dir) for filename in filenames]
+
+
+if __name__ == '__main__':
+    setup(
+        name='cadabra2kernel',
+        version='1.0.0',
+        packages=find_packages(),
+        cmdclass={'install': CompiledLibInstall}
+    )
