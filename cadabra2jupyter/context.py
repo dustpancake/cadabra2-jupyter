@@ -5,6 +5,9 @@ from cadabra2_defaults import *
 from io import StringIO
 import sys
 
+# super important
+__cdbkernel__ = cadabra2.__cdbkernel__
+
 
 class _RedirectionContextFactory:
     def __init__(self):

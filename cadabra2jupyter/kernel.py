@@ -47,6 +47,7 @@ class CadabraJupyterKernel(ipykernel.kernelbase.Kernel):
         interrupted = False
         try:
             pycode = self._parse_cadabra(code)
+            # self._send_error(pycode) # for debugging
             res_out, res_err = self._execute_python(pycode)
 
         except KeyboardInterrupt:
