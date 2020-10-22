@@ -13,8 +13,8 @@ make cadabra_translator
 ```
 
 To finalise the install, navigate to `build/client_server/jupyter/swig` and execute
-```
-pip install .
+```bash
+python setup.py install
 ```
 to copy the binaries and python scripts into the relevant module path.
 
