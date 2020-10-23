@@ -3,13 +3,10 @@ Proof-of-Concept cadabra2 jupyter kernel
 """
 from io import StringIO
 import sys, os
-import rlcompleter
-import site
 import cadabra2
 
 # super important
 __cdbkernel__ = cadabra2.__cdbkernel__
-__cdbkernel__.completer = rlcompleter.Completer()
 
 # needs dynamic configuration; cmake?
 SITE_PATH = "/usr/local/lib/python3.8/site-packages"
