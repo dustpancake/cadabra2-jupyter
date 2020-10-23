@@ -1,36 +1,31 @@
 """
 Proof-of-Concept cadabra2 jupyter kernel
 """
-from cadabra2_defaults import *
 from io import StringIO
-import sys
+import sys, os
+import rlcompleter
+import site
+import cadabra2
 
 # super important
 __cdbkernel__ = cadabra2.__cdbkernel__
+__cdbkernel__.completer = rlcompleter.Completer()
+
+# needs dynamic configuration; cmake?
+SITE_PATH = "/usr/local/lib/python3.8/site-packages"
+
+server = None  #  require so that server is in global namespace
+
+#  import cadabra2 defaults programatically so it shares global namespace
+with open(os.path.join(SITE_PATH, "cadabra2_defaults.py")) as f:
+    code = compile(f.read(), "cadabra2_defaults.py", "exec")
+exec(code, globals())
 
 
-class _RedirectionContextFactory:
-    def __init__(self):
-        self.codeOut = StringIO()
-        self.codeErr = StringIO()
-
-    def __enter__(self):
-        sys.stdout = self.codeOut
-        sys.stderr = self.codeErr
-
-    def __exit__(self, exc_type, exc_val, exc_traceback):
-        sys.stdout = sys.__stdout__
-        sys.stderr = sys.__stderr__
-
-    def get(self):
-        return self.codeOut.getvalue(), self.codeErr.getvalue()
+def _attatch_kernel_server(instance):
+    global server
+    server = instance
 
 
-def exec_in_context(code):
-    # faster to create new StringIO on each call rather than to clear
-    _redirectcontext = _RedirectionContextFactory()
-
-    with _redirectcontext:
-        exec(code, globals())
-
-    return _redirectcontext.get()
+def _exec_in_context(code):
+    exec(code, globals())
